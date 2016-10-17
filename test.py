@@ -25,8 +25,12 @@ def getMessage():
 def sendTextMessage(recipientId, messageText):
 	import json
 	from translate import Translator
-	translator= Translator(to_lang="zh")
-	translation = translator.translate(messageText)
+	translation = messageText
+	try:
+		translator= Translator(to_lang="zh")
+		translation = translator.translate(messageText)
+	except KeyError:
+		pass
 
 	message = json.dumps({"recipient": {"id": recipientId}, "message": {"text": translation}})
 	callSendAPI(message, recipientId)
